@@ -1,6 +1,6 @@
 # Viproxy
 
-EventMachine Proxy DSL for writing high-performance transparent / intercepting proxies in Ruby.
+Transparent intercepting proxy in Ruby for MITM attacks.
 
 # Viproxy is forked from em-proxy
 - Author: Ilya Grigorik
