@@ -2,7 +2,8 @@
 
 EventMachine Proxy DSL for writing high-performance transparent / intercepting proxies in Ruby.
 
-# Viproxy is forked from em-proxy by Ilya Grigorik
+# Viproxy is forked from em-proxy
+- Author: Ilya Grigorik
 - Original Project: https://travis-ci.org/igrigorik/em-proxy
 - EngineYard tutorial: [Load testing your environment using em-proxy](http://docs.engineyard.com/em-proxy.html)
 - [Slides from RailsConf 2009](http://bit.ly/D7oWB)
