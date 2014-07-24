@@ -3,14 +3,14 @@
 lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 
-require 'em-proxy'
+require 'viproxy'
 require 'optparse'
 
 ARGV << '--help' if ARGV.empty?
 
 options = {}
 OptionParser.new do |opts|
-  opts.banner = "Usage: em-proxy [options]"
+  opts.banner = "Usage: viproxy [options]"
 
   opts.on("-l", "--listen [PORT]", Integer, "Port to listen on") do |v|
     options[:listen] = v
@@ -28,9 +28,26 @@ OptionParser.new do |opts|
     options[:socket] = v
   end
 
+  opts.on("-z", "--ssl", "Run in SSL mode") do |v|
+    $ssl = true
+  end
+
+  opts.on("-c", "--sslcert [filename]", String,  "SSL certificate file (PEM)") do |v|
+    $sslcert = v
+  end
+
+  opts.on("-f", "--logfile [filename]", String,  "Log file") do |v|
+    $logfile = v
+  end
+
+  opts.on("-p", "--regexfile [filename]", String,  "Replacement file") do |v|
+    $regexfile = v
+  end
+
   opts.on("-v", "--verbose", "Run in debug mode") do |v|
     options[:verbose] = v
   end
+
 end.parse!
 
 

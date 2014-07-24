@@ -1,69 +1,33 @@
-# EM-Proxy
-
-[![Build Status](https://travis-ci.org/igrigorik/em-proxy.png?branch=master)](https://travis-ci.org/igrigorik/em-proxy)
+# Viproxy
 
 EventMachine Proxy DSL for writing high-performance transparent / intercepting proxies in Ruby.
 
+# Original Project is em-proxy of Ilya Grigorik
 - EngineYard tutorial: [Load testing your environment using em-proxy](http://docs.engineyard.com/em-proxy.html)
 - [Slides from RailsConf 2009](http://bit.ly/D7oWB)
 - [GoGaRuCo notes & Slides](http://www.igvita.com/2009/04/20/ruby-proxies-for-scale-and-monitoring/)
+[![Build Status](https://travis-ci.org/igrigorik/em-proxy.png?branch=master)](https://travis-ci.org/igrigorik/em-proxy)
+
+# Modified Project is viproxy of Fatih Ozavci
 
 ## Getting started
 
-    $> gem install em-proxy
-    $> em-proxy
-    Usage: em-proxy [options]
-      -l, --listen [PORT]              Port to listen on
-      -d, --duplex [host:port, ...]    List of backends to duplex data to
-      -r, --relay [hostname:port]      Relay endpoint: hostname:port
-      -s, --socket [filename]          Relay endpoint: unix filename
-      -v, --verbose                    Run in debug mode
+    $> ruby bin/viproxy
+    Usage: viproxy [options]
+    -l, --listen [PORT]              Port to listen on
+    -d, --duplex [host:port, ...]    List of backends to duplex data to
+    -r, --relay [hostname:port]      Relay endpoint: hostname:port
+    -s, --socket [filename]          Relay endpoint: unix filename
+    -z, --ssl                        Run in SSL mode
+    -c, --sslcert [filename]         SSL certificate file (PEM)
+    -f, --logfile [filename]         Log file
+    -p, --regexfile [filename]       Replacement file
+    -v, --verbose                    Run in debug mode
 
-    $> em-proxy -l 8080 -r localhost:8081 -d localhost:8082,localhost:8083 -v
+    $> ruby bin/viproxy -l 8080 -z -c cert.crt -f /tmp/x.log -v -d 127.0.0.1:8081 -r 127.0.0.1:8083
 
-The above will start em-proxy on port 8080, relay and respond with data from port 8081, and also (optional) duplicate all traffic to ports 8082 and 8083 (and discard their responses).
+The above will start viproxy on port 8080, relay and respond with data from port 8083, and also (optional) duplicate all traffic to ports 8081 (and discard their responses).
 
-
-## Simple port forwarding proxy
-
-```ruby
-Proxy.start(:host => "0.0.0.0", :port => 80, :debug => true) do |conn|
-  conn.server :srv, :host => "127.0.0.1", :port => 81
-
-  # modify / process request stream
-  conn.on_data do |data|
-    p [:on_data, data]
-    data
-  end
-
-  # modify / process response stream
-  conn.on_response do |backend, resp|
-    p [:on_response, backend, resp]
-    resp
-  end
-
-  # termination logic
-  conn.on_finish do |backend, name|
-    p [:on_finish, name]
-
-    # terminate connection (in duplex mode, you can terminate when prod is done)
-    unbind if backend == :srv
-  end
-end
-```
-
-For more examples see the /examples directory.
-
-- SMTP Spam Filtering
-- Duplicating traffic
-- Selective forwarding
-- Beanstalkd interceptor
-- etc.
-
-A schema-free MySQL proof of concept, via an EM-Proxy server:
-
-- http://www.igvita.com/2010/03/01/schema-free-mysql-vs-nosql/
-- Code in examples/schemaless-mysql
 
 ## License
 

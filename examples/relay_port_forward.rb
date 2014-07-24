@@ -1,4 +1,4 @@
-require 'lib/em-proxy'
+require 'lib/viproxy'
 
 Proxy.start(:host => "0.0.0.0", :port => 80, :debug => false) do |conn|
   # Specifying :relay_server or :relay_client is useful if only requests or responses 

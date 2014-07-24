@@ -13,7 +13,6 @@ class Proxy
       end
     end
   end
-
   def self.stop
     puts "Terminating ProxyServer"
     EventMachine.stop

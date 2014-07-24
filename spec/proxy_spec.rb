@@ -209,7 +209,7 @@ describe Proxy do
 
     context "with a server listening on a unix socket" do
       before :each do
-        @socket = File.join(Dir.tmpdir, 'em-proxy.sock')
+        @socket = File.join(Dir.tmpdir, 'viproxy.sock')
         @pid  = spawn("ruby #{@echo_server} #{@socket}")
         sleep 1 # let the server come up
       end

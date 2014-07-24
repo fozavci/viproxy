@@ -4,4 +4,4 @@ require 'pp'
 require 'tmpdir'
 require 'posix/spawn'
 
-require 'em-proxy'
+require 'viproxy'

@@ -13,10 +13,19 @@ module EventMachine
       def initialize(options)
         @debug = options[:debug] || false
         @servers = {}
+        set_replacefile($regexfile) if $regexfile
+      end
+
+      def post_init
+        if $ssl
+          start_tls :private_key_file => $sslcert, :cert_chain_file => $sslcert, :verify_peer => false
+        end
       end
 
       def receive_data(data)
         debug [:connection, data]
+        replace_it(data,"REQ") if $regexfile
+        log("Client",data)
         processed = @on_data.call(data) if @on_data
 
         return if processed == :async or processed.nil?
@@ -36,6 +45,7 @@ module EventMachine
 
         servers.each do |s|
           s.send_data data unless data.nil?
+          puts "Client data sent to the server"
         end
       end
 
@@ -86,8 +96,10 @@ module EventMachine
       # relay data from backend server to client
       #
       def relay_from_backend(name, data)
+        puts "Backend sent data..."
         debug [:relay_from_backend, name, data]
-
+        replace_it(data,"RES") if $regexfile
+        log("Backend Server",data)
         data = @on_response.call(name, data) if @on_response
         send_data data unless data.nil?
       end
@@ -101,7 +113,7 @@ module EventMachine
         debug [:unbind, :connection]
 
         # terminate any unfinished connections
-        @servers.values.compact.each do |s|
+        :relay.values.compact.each do |s|
           s.close_connection_after_writing
         end
       end
@@ -130,6 +142,59 @@ module EventMachine
           puts
         end
       end
+
+      def log(t,data)
+        if $logfile
+          logfile=File.new($logfile,'a')
+          #logfile.puts "-------------#{t}--------------\n\n#{data}\n\n"
+          logfile.puts "#{data}"
+          logfile.close
+        end
+      end
+
+
+      def replace_it(data,type)
+        $replacement_table[type].each do |r,c|
+          puts "Replacements are #{r} to #{c}"
+          data.gsub!(r,c)
+        end
+        return data
+      end
+
+      def set_replacefile(f)
+        puts "Replacement File is "+f.to_s
+        $replacement_table = {}
+        $replacement_table["RES"] = {}
+        $replacement_table["REQ"] = {}
+        contents=File.new(f, "r")
+        contents.each do |line|
+          next if line =~ /^#/ or line =~ /^\n/
+          type=line.split("\t")[0]
+          t = line.split("\t")[1]
+          r = Regexp.new t
+          c = line.split("\t")[2..1000].join("\t").chop
+
+          if c =~ /FUZZ/
+            str = "A" * c.split(" ")[1].to_i
+            puts str
+          else
+            str = c
+            puts str
+          end
+
+          case type
+            when "RES"
+              $replacement_table[type][r] = str
+            when "REQ"
+              $replacement_table[type][r] = str
+            when "BOTH"
+              $replacement_table["RES"][r] = str
+              $replacement_table["REQ"][r] = str
+          end
+
+        end
+      end
+
     end
   end
 end

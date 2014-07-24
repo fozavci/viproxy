@@ -1,4 +1,4 @@
-require 'em-proxy'
+require 'viproxy'
 require 'http/parser' # gem install http_parser.rb
 require 'uuid'        # gem install uuid
 

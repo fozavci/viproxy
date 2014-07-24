@@ -1,4 +1,4 @@
-require 'lib/em-proxy'
+require 'lib/viproxy'
 require 'em-http'
 require 'yaml'
 require 'net/http'

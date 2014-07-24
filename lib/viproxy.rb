@@ -6,5 +6,5 @@ require "eventmachine"
 require "socket"
 
 %w[ backend proxy connection ].each do |file|
-  require "em-proxy/#{file}"
+  require "viproxy/#{file}"
 end

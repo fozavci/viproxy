@@ -1,6 +1,6 @@
 $:<< '../lib' << 'lib'
 
-require 'em-proxy'
+require 'viproxy'
 require 'ansi/code'
 require 'uri'
 
@@ -96,7 +96,7 @@ module BalancingProxy
 
   end
 
-  # Callbacks for em-proxy events
+  # Callbacks for viproxy events
   #
   module Callbacks
     include ANSI::Code

@@ -1,4 +1,4 @@
-require 'lib/em-proxy'
+require 'lib/viproxy'
 
 Proxy.start(:host => "0.0.0.0", :port => 8000, :debug => true) do |conn|
   @start = Time.now
@@ -9,7 +9,7 @@ Proxy.start(:host => "0.0.0.0", :port => 8000, :debug => true) do |conn|
 
   conn.on_data do |data|
     # rewrite User-Agent
-    data.gsub(/User-Agent: .*?\r\n/, "User-Agent: em-proxy/0.1\r\n")
+    data.gsub(/User-Agent: .*?\r\n/, "User-Agent: viproxy/0.1\r\n")
   end
 
   conn.on_response do |server, resp|

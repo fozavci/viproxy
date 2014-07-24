@@ -1,4 +1,4 @@
-require "lib/em-proxy"
+require "lib/viproxy"
 require "em-mysql"
 require "stringio"
 require "fiber"
