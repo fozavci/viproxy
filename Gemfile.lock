@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    em-proxy (0.1.7)
+    viproxy (0.1.7)
       eventmachine
 
 GEM
@@ -36,7 +36,7 @@ PLATFORMS
 DEPENDENCIES
   ansi
   em-http-request
-  em-proxy!
+  vipproxy!
   posix-spawn
   rake
   rspec
