@@ -11,9 +11,15 @@ Transparent intercepting proxy in Ruby for MITM attacks.
 
 ## New Features
 - Log file support
-- TLS support
+- SSL support
 - Custom digital certificate support
 - Search & Replace support for traffic manipulation
+
+## Known bugs
+- No error handling :)
+- Duplex server must be SSL enabled if connection is SSL enabled
+- Multithreads create some errors, they will be fixed after Blackhat/Defcon
+
 
 ## Getting started
 
