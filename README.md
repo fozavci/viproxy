@@ -9,6 +9,12 @@ EventMachine Proxy DSL for writing high-performance transparent / intercepting p
 - [Slides from RailsConf 2009](http://bit.ly/D7oWB)
 - [GoGaRuCo notes & Slides](http://www.igvita.com/2009/04/20/ruby-proxies-for-scale-and-monitoring/)
 
+## New Features
+- Log file support
+- TLS support
+- Custom digital certificate support
+- Search & Replace support for traffic manipulation
+
 ## Getting started
 
     $> ruby bin/viproxy
