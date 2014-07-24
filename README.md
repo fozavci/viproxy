@@ -33,6 +33,17 @@ Transparent intercepting proxy in Ruby for MITM attacks.
 
 The above will start viproxy on port 8080, relay and respond with data from port 8083, and also (optional) duplicate all traffic to ports 8081 (and discard their responses).
 
+## Sample Search & Replace file
+    #Fuzzing Demo
+    #REQ	rtf1	FUZZ 20000
+    #XSS injection to client requests
+    #REQ	xsstest	<h1>Viproy Test</h1>
+    #Content-Length arrangements on server responses
+    #RES	Content-Length: 3193	Content-Length: 25663
+    #XSS injection to server responses and client requests
+    #BOTH	xsstest	<h1>Viproy Test</h1>
+
+
 
 ## License
 
