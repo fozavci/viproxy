@@ -1,4 +1,4 @@
-# Viproxy
+# Viproxy 1.0
 
 Transparent intercepting proxy in Ruby for MITM attacks.
 
